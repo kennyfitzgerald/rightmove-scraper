@@ -1,0 +1,39 @@
+name: Run rightmove searches
+
+on:
+  schedule:
+    - cron: '0/20 7-23 * * *'
+  workflow_dispatch:
+
+jobs:
+  run_searches:
+    name: Run rightmove and email results
+    env: 
+      EMAIL_SENDER: ${{ secrets.EMAIL_SENDER }}
+      EMAIL_RECEIVERS: ${{ secrets.EMAIL_RECEIVERS }}
+      EMAIL_PASS: ${{ secrets.EMAIL_PASS }}
+    runs-on: ubuntu-latest
+    steps: 
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.9.12'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run searches and update seen listings 
+        run: |
+          python main.py
+      
+      - name: Commit and Push Changes
+        run: |
+          git config --local user.email "actions@github.com"
+          git config --local user.name "GitHub Actions"
+          git add 'seen_urls.txt' || true
+          git commit -m "Updated seen urls file" || true
+          git push origin master || true
