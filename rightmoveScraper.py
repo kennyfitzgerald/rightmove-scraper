@@ -9,7 +9,7 @@ def write_urls(df):
 
     urls = list(df['url'])
 
-    textfile = open("seen_urls.txt", "w")
+    textfile = open("seen_urls.txt", "a")
     for element in urls:
         textfile.write(element + "\n")
     textfile.close()
