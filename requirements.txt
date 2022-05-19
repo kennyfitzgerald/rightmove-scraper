@@ -2,7 +2,7 @@ certifi==2021.10.8
 charset-normalizer==2.0.12
 idna==3.3
 lxml==4.8.0
-numpy=
+numpy
 pandas==1.4.2
 pip==21.2.4
 pretty-html-table==0.9.16
