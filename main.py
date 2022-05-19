@@ -7,5 +7,6 @@ max_price_pp = 900
 sender = os.environ.get('EMAIL_SENDER')
 receivers = os.environ.get('EMAIL_RECEIVERS')
 password = os.environ.get('EMAIL_PASS')
+print(sender)
 
 send_results(url, max_price_pp, sender, receivers, password)
