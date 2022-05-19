@@ -33,6 +33,7 @@ def get_rightmove_data(url, max_price_pp):
     results = rm.get_results
     results['price_pp'] = round(results['price']/results['number_bedrooms'])
     results = results.query(f'(price_pp <= {max_price_pp}) & ~(url in {seen_urls})')
+    results = results.sort_values(by=['price_pp'], ascending=False)
     write_urls(results)
 
     return results
