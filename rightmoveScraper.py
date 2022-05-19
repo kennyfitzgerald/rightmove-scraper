@@ -45,6 +45,9 @@ def build_html(df):
     for row in range(0, len(df)):
         link = f"<p><a href=\"{df.iloc[row]['url']}\">{df.iloc[row]['number_bedrooms']} Bed, {round(df.iloc[row]['price_pp'])} PP, {df.iloc[row]['address']}</a></p>"
         results.append(link)
+    
+    # For some reason this occasionally duplicates. Admittedly a bit of a lazy workaround but its pretty efficient and solves the issue.
+    results = list(set(results))
 
     return '\n'.join(results)
 
