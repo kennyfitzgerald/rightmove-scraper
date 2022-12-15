@@ -922,3 +922,4 @@ http://www.rightmove.co.uk/properties/130008923#/?channel=RES_LET
 http://www.rightmove.co.uk/properties/130009133#/?channel=RES_LET
 http://www.rightmove.co.uk/properties/130010093#/?channel=RES_LET
 http://www.rightmove.co.uk/properties/130011953#/?channel=RES_LET
+http://www.rightmove.co.uk/properties/130019021#/?channel=RES_LET
