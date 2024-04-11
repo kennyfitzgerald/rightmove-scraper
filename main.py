@@ -1,13 +1,19 @@
 from rightmoveScraper import *
 from telegram import *
+from google_sheet import *
 import os
 
-url = 'https://rightmove.co.uk/property-to-rent/find.html?locationIdentifier=STATION%5E341&maxBedrooms=3&minBedrooms=3&maxPrice=2500&radius=1.0&propertyTypes=&includeLetAgreed=false&mustHave=&dontShow=&furnishTypes=&keywords='
-max_price_pp = 1000
+TELEGRAM_API_KEY = os.environ.get("TELEGRAM_API_KEY")
+GSHEETS_RIGHTMOVE_SHEET_ID = os.environ.get("GSHEETS_RIGHTMOVE_SHEET_ID")
+GSHEETS_GID = 0
 
-TELEGRAM_API_KEY = os.environ.get('TELEGRAM_API_KEY')
-TELEGRAM_CHAT_ID = os.environ.get('TELEGRAM_CHAT_ID')
+configs = google_sheet_to_json(GSHEETS_RIGHTMOVE_SHEET_ID, GSHEETS_GID)
 
-rightmove_data = get_rightmove_data(url, max_price_pp)
+for config in configs:
+    url = config["rightmove_url"]
+    max_price_pp = config["max_price_pp"]
+    telegram_chat_ids = config["telegram_chat_ids"]
+    description = config["description"]
 
-send_to_telegram(rightmove_data, TELEGRAM_API_KEY, TELEGRAM_CHAT_ID)
+    rightmove_data = get_rightmove_data(url, max_price_pp)
+    send_to_telegram(rightmove_data, TELEGRAM_API_KEY, telegram_chat_ids, description)
