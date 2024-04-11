@@ -6,5 +6,4 @@ services:
       - .:/rightmove-scraper
     environment:
       - TELEGRAM_API_KEY=${TELEGRAM_API_KEY}
-      - TELEGRAM_CHAT_ID=${TELEGRAM_CHAT_ID}
-      
+      - GSHEETS_RIGHTMOVE_SHEET_ID=${GSHEETS_RIGHTMOVE_SHEET_ID}
