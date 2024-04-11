@@ -1,11 +1,13 @@
 from rightmoveScraper import *
+from telegram import *
 import os
 
 url = 'https://rightmove.co.uk/property-to-rent/find.html?locationIdentifier=STATION%5E341&maxBedrooms=3&minBedrooms=3&maxPrice=2500&radius=1.0&propertyTypes=&includeLetAgreed=false&mustHave=&dontShow=&furnishTypes=&keywords='
 max_price_pp = 1000
 
-sender = os.environ.get('EMAIL_SENDER')
-receivers = os.environ.get('EMAIL_RECEIVERS')
-password = os.environ.get('EMAIL_PASS')
+TELEGRAM_API_KEY = os.environ.get('TELEGRAM_API_KEY')
+TELEGRAM_CHAT_ID = os.environ.get('TELEGRAM_CHAT_ID')
 
-send_results(url, max_price_pp, sender, receivers, password)
+rightmove_data = get_rightmove_data(url, max_price_pp)
+
+send_to_telegram(rightmove_data, TELEGRAM_API_KEY, TELEGRAM_CHAT_ID)
