@@ -34,46 +34,7 @@ def get_rightmove_data(url, max_price_pp):
     results['price_pp'] = round(results['price']/results['number_bedrooms'])
     results = results.query(f'(price_pp <= {max_price_pp}) & ~(url in {seen_urls})')
     results = results.sort_values(by=['price_pp'], ascending=False)
+    results = results.drop_duplicates()
     write_urls(results)
 
     return results
-
-def build_html(df):
-
-    results = []
-
-    for row in range(0, len(df)):
-        link = f"<p><a href=\"{df.iloc[row]['url']}\">{df.iloc[row]['number_bedrooms']} Bed, {round(df.iloc[row]['price_pp'])} PP, {df.iloc[row]['address']}</a></p>"
-        results.append(link)
-    
-    # For some reason this occasionally duplicates. Admittedly a bit of a lazy workaround but its pretty efficient and solves the issue.
-    results = list(set(results))
-
-    return '\n'.join(results)
-
-def send_mail(body, sender, receivers, password):
-
-    message = MIMEMultipart()
-    message['Subject'] = 'New Rightmove Search Results'
-    message['From'] = sender
-    message['To'] = receivers
-
-    body_content = body
-    message.attach(MIMEText(body_content, "html"))
-    msg_body = message.as_string()
-
-    server = SMTP('smtp.gmail.com', 587)
-    server.starttls()
-    server.login(message['From'], password)
-    server.sendmail(message['From'], message['To'], msg_body)
-    server.quit()
-
-def send_results(url, max_price_pp, sender, receivers, password):
-
-    rightmove_data = get_rightmove_data(url, max_price_pp)
-    if len(rightmove_data) == 0:
-        return "No new results."
-        pass
-    output = build_html(rightmove_data)
-    send_mail(output, sender, receivers, password)
-    return "Mail sent successfully."

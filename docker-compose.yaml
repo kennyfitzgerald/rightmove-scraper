@@ -4,3 +4,7 @@ services:
     build: .
     volumes:
       - .:/rightmove-scraper
+    environment:
+      - TELEGRAM_API_KEY=${TELEGRAM_API_KEY}
+      - TELEGRAM_CHAT_ID=${TELEGRAM_CHAT_ID}
+      
