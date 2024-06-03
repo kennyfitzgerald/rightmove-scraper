@@ -7,3 +7,11 @@ services:
     environment:
       - TELEGRAM_API_KEY=${TELEGRAM_API_KEY}
       - GSHEETS_RIGHTMOVE_SHEET_ID=${GSHEETS_RIGHTMOVE_SHEET_ID}
+
+  run:
+    build: .
+    environment:
+      TELEGRAM_API_KEY: $TELEGRAM_API_KEY
+      GSHEETS_RIGHTMOVE_SHEET_ID: $GSHEETS_RIGHTMOVE_SHEET_ID
+    command: python main.py  # Command to run searches
+    restart: always
