@@ -11,15 +11,10 @@ jobs:
     env: 
       TELEGRAM_API_KEY: ${{ secrets.TELEGRAM_API_KEY }}
       GSHEETS_RIGHTMOVE_SHEET_ID: ${{ secrets.GSHEETS_RIGHTMOVE_SHEET_ID }}
-    runs-on: ubuntu-latest
+    runs-on: python:3.9.19
     steps: 
       - name: Checkout
         uses: actions/checkout@v2
-
-      - name: Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: '3.9.19'
 
       - name: Install project dependencies
         run: |
