@@ -8,19 +8,6 @@ on:
 jobs:  
 
   run_searches:
-    name: Run rightmove and email results new
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Run Docker Compose
-        run: docker-compose up run --abort-on-container-exit
-        env:
-          TELEGRAM_API_KEY: ${{ secrets.TELEGRAM_API_KEY }}
-          GSHEETS_RIGHTMOVE_SHEET_ID: ${{ secrets.GSHEETS_RIGHTMOVE_SHEET_ID }}
-
-  run_searches_old:
     name: Run rightmove and email results
     env: 
       TELEGRAM_API_KEY: ${{ secrets.TELEGRAM_API_KEY }}
