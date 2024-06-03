@@ -34,5 +34,6 @@ jobs:
           git config --local user.email "actions@github.com"
           git config --local user.name "GitHub Actions"
           git add 'seen_urls.txt' || true
+          git add 'openrent_seen_listings.txt' || true
           git commit -m "Updated seen urls file" || true
           git push origin master || true
