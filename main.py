@@ -1,4 +1,5 @@
 from rightmoveScraper import *
+from openrentScraper import *
 from telegram import *
 from google_sheet import *
 import os
@@ -10,10 +11,14 @@ GSHEETS_GID = 0
 configs = google_sheet_to_json(GSHEETS_RIGHTMOVE_SHEET_ID, GSHEETS_GID)
 
 for config in configs:
-    url = config["rightmove_url"]
+    url = config["url"]
     max_price_pp = config["max_price_pp"]
     telegram_chat_ids = config["telegram_chat_ids"]
     description = config["description"]
+    site = config["site"]
 
-    rightmove_data = get_rightmove_data(url, max_price_pp)
-    send_to_telegram(rightmove_data, TELEGRAM_API_KEY, telegram_chat_ids, description)
+    if site == 'rightmove':
+        results = get_rightmove_data(url, max_price_pp)
+    if site == 'openrent':
+        results = get_openrent_data(url, max_price_pp)
+    send_to_telegram(results, TELEGRAM_API_KEY, telegram_chat_ids, description, site)

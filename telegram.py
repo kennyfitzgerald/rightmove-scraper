@@ -18,19 +18,22 @@ def chat_ids_to_list(chat_ids):
     return str(chat_ids).split(",")
 
 
-def send_to_telegram(data, api_key, chat_id, description):
+def send_to_telegram(data, api_key, chat_id, description, site):
 
     apiURL = f"https://api.telegram.org/bot{api_key}/sendMessage"
 
     if len(data) == 0:
         return "No new results."
 
-    messages = build_html(data)
+    if site == 'rightmove':
+        messages = build_html(data)
+    if site == 'openrent':
+        messages = list(data['HTML'])
 
     chat_ids_list = chat_ids_to_list(chat_id)
     for chat_id in chat_ids_list:
         for message in messages:
-            message = f"New Result for search: {description}\n\n" + message
+            message = f"New Result for {site} search: {description}\n\n" + message
             try:
                 response = requests.post(
                     apiURL,
