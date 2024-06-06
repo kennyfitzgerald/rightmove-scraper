@@ -16,9 +16,11 @@ for config in configs:
     telegram_chat_ids = config["telegram_chat_ids"]
     description = config["description"]
     site = config["site"]
-
-    if site == 'rightmove':
-        results = get_rightmove_data(url, max_price_pp)
-    if site == 'openrent':
-        results = get_openrent_data(url, max_price_pp)
-    send_to_telegram(results, TELEGRAM_API_KEY, telegram_chat_ids, description, site)
+    try:
+        if site == 'rightmove':
+            results = get_rightmove_data(url, max_price_pp)
+        if site == 'openrent':
+            results = get_openrent_data(url, max_price_pp)
+        send_to_telegram(results, TELEGRAM_API_KEY, telegram_chat_ids, description, site)
+    except:
+        continue
