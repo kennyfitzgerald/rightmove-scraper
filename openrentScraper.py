@@ -55,7 +55,7 @@ def get_page(driver, url):
     html = driver.page_source
     page = BeautifulSoup(html, features="lxml")
     driver.refresh()
-    time.sleep(1)
+    time.sleep(5)
 
     return page
 
@@ -184,7 +184,7 @@ def get_listing_details(driver, listing_id):
     driver.get(url)
     driver.implicitly_wait(2)
 
-    time.sleep(1.5)
+    time.sleep(5)
     result = None
     response = driver.page_source
 
@@ -329,5 +329,4 @@ def get_openrent_data(url, max_price_pp):
     listing_ids = get_listing_ids(page)
     listing_ids = apply_listing_filters(listing_ids, "openrent_seen_listings.txt", max_price_pp)
     results = get_all_results(driver, listing_ids)
-    write_seen_listings(results, "openrent_seen_listings.txt")
     return pd.DataFrame(results)

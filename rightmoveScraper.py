@@ -38,6 +38,5 @@ def get_rightmove_data(url, max_price_pp):
     results = results.query(f"(price_pp <= {max_price_pp}) & ~(url in {seen_urls})")
     results = results.sort_values(by=["price_pp"], ascending=False)
     results = results.drop_duplicates()
-    write_urls(results)
 
     return results

@@ -19,8 +19,11 @@ for config in configs:
     try:
         if site == 'rightmove':
             results = get_rightmove_data(url, max_price_pp)
+            send_to_telegram(results, TELEGRAM_API_KEY, telegram_chat_ids, description, site)
+            write_urls(results)
         if site == 'openrent':
             results = get_openrent_data(url, max_price_pp)
-        send_to_telegram(results, TELEGRAM_API_KEY, telegram_chat_ids, description, site)
+            send_to_telegram(results, TELEGRAM_API_KEY, telegram_chat_ids, description, site)
+            write_seen_listings(results, "openrent_seen_listings.txt")
     except:
         continue
