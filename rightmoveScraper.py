@@ -4,15 +4,12 @@ from smtplib import SMTP
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from os.path import exists
+from openrentScraper import write_seen_listing
 
 
-def write_urls(df):
-
-    urls = list(df["url"])
-
+def write_url(url):
     textfile = open("seen_urls.txt", "a")
-    for element in urls:
-        textfile.write(element + "\n")
+    textfile.write(url + "\n")
     textfile.close()
 
 
@@ -38,5 +35,6 @@ def get_rightmove_data(url, max_price_pp):
     results = results.query(f"(price_pp <= {max_price_pp}) & ~(url in {seen_urls})")
     results = results.sort_values(by=["price_pp"], ascending=False)
     results = results.drop_duplicates()
+    print(results.head())
 
     return results

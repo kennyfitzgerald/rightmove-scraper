@@ -306,13 +306,10 @@ def get_all_results(driver, listing_ids):
     return results
 
 
-def write_seen_listings(results, filepath):
-
-    listing_ids = [result["id"] for result in results]
+def write_seen_listing(id, filepath):
 
     textfile = open(filepath, "a")
-    for id in listing_ids:
-        textfile.write(str(id) + "\n")
+    textfile.write(str(id) + "\n")
     textfile.close()
 
 
