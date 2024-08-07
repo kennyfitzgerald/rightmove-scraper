@@ -1068,3 +1068,5 @@ http://www.rightmove.co.uk/properties/151059899#/?channel=RES_LET
 http://www.rightmove.co.uk/properties/151062905#/?channel=RES_LET
 http://www.rightmove.co.uk/properties/151071455#/?channel=RES_LET
 http://www.rightmove.co.uk/properties/151072610#/?channel=RES_LET
+http://www.rightmove.co.uk/properties/151076741#/?channel=RES_LET
+http://www.rightmove.co.uk/properties/151076294#/?channel=RES_LET
