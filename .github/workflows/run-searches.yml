@@ -6,35 +6,43 @@ on:
   workflow_dispatch:
 
 jobs:  
-
   run_searches:
-    name: Run rightmove and email results
-    env: 
+    name: Run Rightmove and email results
+    runs-on: ubuntu-latest
+    env:
       TELEGRAM_API_KEY: ${{ secrets.TELEGRAM_API_KEY }}
       GSHEETS_RIGHTMOVE_SHEET_ID: ${{ secrets.GSHEETS_RIGHTMOVE_SHEET_ID }}
-    runs-on: ubuntu-latest
-    steps: 
-      - name: Checkout
-        uses: actions/checkout@v2
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Cache pip wheel directory
+        uses: actions/cache@v3
+        continue-on-error: true
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
 
       - name: Setup Python
         uses: actions/setup-python@v2
         with:
           python-version: '3.9.19'
-          cache: 'pip'
 
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Run searches and update seen listings 
-        run: |
-          python main.py
-      
+      - name: Run searches and update seen listings
+        run: python main.py
+
       - name: Commit and Push Changes
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          git config --local user.email "actions@github.com"
-          git config --local user.name "GitHub Actions"
-          git add 'seen_urls.txt' || true
-          git add 'openrent_seen_listings.txt' || true
-          git commit -m "Updated seen urls file" || true
-          git push origin master || true
+          git config user.email "actions@github.com"
+          git config user.name "GitHub Actions"
+          git add seen_urls.txt openrent_seen_listings.txt || true
+          git commit -m "Update seen listings" || echo "No changes to commit"
+          git push origin "${{ github.ref_name }}"
